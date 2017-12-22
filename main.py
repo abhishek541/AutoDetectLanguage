@@ -35,7 +35,7 @@ class DetectLanguage:
     def predict(self):
         Xts, yts = self.getTextData('test')
         yhat = self.lang_model.predict(Xts)
-        self.confusion_matrix = metrics.confusion_matrix(yts, yhat)
+        self.metrics = metrics.classification_report(yts, yhat, target_names=self.languages)
 
         for text, n in zip(Xts, yhat):
             print(u'{} ==========> language is {}'.format(text, self.languages[n]))
