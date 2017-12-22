@@ -5,12 +5,20 @@ from sklearn import linear_model
 from sklearn import pipeline
 from sklearn import metrics
 
+"""
+Class to implement language detection
+using n-grams classification method and
+logistic regression as the linear model
+"""
 class DetectLanguage:
 
     lang_model = None
     languages = []
     confusion_matrix = None
 
+    """
+    Method to get data based on the type (train/test)
+    """
     def getTextData(self, type):
         directory = 'data/' + type
         X = []
@@ -25,6 +33,9 @@ class DetectLanguage:
                 X += text
         return X, y
 
+    """
+    Method to train the model with training data
+    """
     def trainmodel(self):
         Xtr, ytr = self.getTextData('train')
         vectorizer = feature_extraction.text.TfidfVectorizer(ngram_range=(1, 6), analyzer='char')
@@ -32,6 +43,9 @@ class DetectLanguage:
         self.lang_model = pipeline.Pipeline([('vectorizer', vectorizer), ('clf', linear_model.LogisticRegression())])
         self.lang_model.fit(Xtr, ytr)
 
+    """
+    Method to predict language using trained model
+    """
     def predict(self):
         Xts, yts = self.getTextData('test')
         yhat = self.lang_model.predict(Xts)
@@ -40,4 +54,13 @@ class DetectLanguage:
         for text, n in zip(Xts, yhat):
             print(u'{} ==========> language is {}'.format(text, self.languages[n]))
 
-        return Xts, yhat
+        return yhat
+
+def test_model():
+    ld = DetectLanguage()
+    ld.trainmodel()
+    ld.predict()
+    print(ld.metrics)
+
+if __name__ == "__main__":
+    test_model()
