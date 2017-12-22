@@ -7,7 +7,7 @@ The model can detect 7 languages: English, Chinese, Italian, Portuguese, Dutch, 
 The data has been taken as text files from different Wikipedia articles in all these languages. 
 Training data is in 'data\train' directory and test data is in 'data\test' directory.
 
-To run the model, clone do the following:
+To run the model, do the following:
 
   1. Clone the repository
   2. Go to the project directory
